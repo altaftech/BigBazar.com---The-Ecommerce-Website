@@ -1,0 +1,20 @@
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .tooltip-box {
+    position: absolute;
+    top: 130%;
+    right: 0px;
+    /* transform: translateX(-50%); */
+    background-color: #F0F0F0;
+    color: #FF7B00;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 1;
+    font-size: 14px;
+  }
+  
