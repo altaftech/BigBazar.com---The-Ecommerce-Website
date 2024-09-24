@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './App.css'
 import Swal from 'sweetalert2'
 import axios from 'axios';
@@ -9,6 +9,7 @@ import axios from 'axios';
 const Mobile = () => {
     const [mobile, setMobile] = useState('');
     const [error, setError] = useState('');
+    const [error2, setError2] = useState('');
     const [OTP, setOTP] = useState(''); // To store OTP input
     const [otpSent, setOtpSent] = useState(false); // To track if OTP was sent
     const [isDisabled, setIsDisabled] = useState(false);
@@ -35,11 +36,22 @@ const Mobile = () => {
             return true; // Return true if validation passes
         }
     }
+    const OTPValid = () => {
+        const OtpPattern = /^\d{6}$/;
+
+        if (!OtpPattern.test(OTP)) {
+            setError2('Please enter a valid 6-digit OTP.');
+            return false; // Return false if validation fails
+        } else {
+            setError2('');
+            return true; // Return true if validation passes
+        }
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setIsSubmitting(true);
         if (validate()) {
+            setIsSubmitting(true);
             const data = new FormData()
             data.append('user_mobile', mobile)
             axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-login.php', data)
@@ -124,38 +136,39 @@ const Mobile = () => {
 
     // Handle OTP verification with the API
     const handleOTPVerification = () => {
-        setIsSubmitting(true);
-        const data = new FormData();
-        data.append('user_mobile', mobile);
-        data.append('mobile_otp', OTP); // Send the entered OTP to the API
-        axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-verify.php', data)
-            .then(res => {
-                const userObject = res.data.message;
-                if (userObject === 'You Have Successfully Logged In') {
-                    Swal.fire({
-                        title: 'OTP Verified',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    localStorage.setItem("uid", res.data.user_id)
-                    localStorage.setItem("is_login", true)
-                    navigate('/home')
-                } else {
-                    Swal.fire({
-                        title: 'Invalid OTP',
-                        icon: 'error',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            })
-            .catch(error => {
-                alert("Error during OTP Verification: " + error);
-                console.error('Error during OTP Verification:', error);
-            })
-            .finally(() => setIsSubmitting(false));
-
+        if (OTPValid()) {
+            setIsSubmitting(true);
+            const data = new FormData();
+            data.append('user_mobile', mobile);
+            data.append('mobile_otp', OTP); // Send the entered OTP to the API
+            axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-verify.php', data)
+                .then(res => {
+                    const userObject = res.data.message;
+                    if (userObject === 'You Have Successfully Logged In') {
+                        Swal.fire({
+                            title: 'OTP Verified',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        localStorage.setItem("uid", res.data.user_id)
+                        localStorage.setItem("is_login", true)
+                        navigate('/home')
+                    } else {
+                        Swal.fire({
+                            title: 'Invalid OTP',
+                            icon: 'error',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+                .catch(error => {
+                    alert("Error during OTP Verification: " + error);
+                    console.error('Error during OTP Verification:', error);
+                })
+                .finally(() => setIsSubmitting(false));
+        }
     };
     return (
         <>
@@ -165,12 +178,6 @@ const Mobile = () => {
                 <form onSubmit={handleSubmit} style={{ alignItems: 'center' }}>
                     <input type="text" class="form-control" style={{ width: '300px' }} maxlength="10" value={mobile} onChange={handleChange} name="mobile" placeholder='Mobile no.' />{error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>} <br />
                     {!otpSent && (
-                        // <input
-                        //     type="submit"
-                        //     className="p-1 btn btn-success w-100"
-                        //     value="Get OTP"
-                        //     style={{ background: '#FF7B00', borderColor: '#FF7B00', fontSize: '20px', fontWeight: '500' }}
-                        // />
                         <button type="submit" className="p-1 btn btn-success w-100" style={{ background: '#FF7B00', borderColor: '#FF7B00', fontSize: '20px', fontWeight: '500' }}>{isSubmitting ? (<span><img src="loading.gif" alt="" width={30} /> Sending...</span>) : (<span>Get OTP</span>)}</button>
                     )}
                     {otpSent && (
@@ -195,7 +202,7 @@ const Mobile = () => {
                                 value={OTP}
                                 onChange={handleOTPChange}
                                 placeholder='Enter OTP'
-                            />
+                            />{error2 && <div style={{ color: 'red', marginTop: '10px' }}>{error2}</div>} <br />
                             <button
                                 type="button"
                                 className="p-1 btn btn-primary w-100 mt-3"

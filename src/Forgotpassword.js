@@ -30,8 +30,8 @@ const Forgotpassword = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
         if (validate()) {
+            setIsSubmitting(true);
             const data = new FormData()
             data.append('user_email', formData.email)
             axios.post('https://akashsir.in/myapi/atecom1/api/api-user-forgot-password.php', data)

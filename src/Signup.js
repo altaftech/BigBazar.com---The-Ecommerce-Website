@@ -51,8 +51,8 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
         if (validate()) {
+            setIsSubmitting(true);
             const data = new FormData()
             data.append('user_name', formData.name)
             data.append('user_email', formData.email)
