@@ -5,9 +5,16 @@ import React, { useState, useEffect } from 'react'
 const Home = () => {
     const [data, setData] = useState([])
     useEffect(() => {
-        axios.get('https://akashsir.in/myapi/atecom1/api/api-random-product-list.php')
-            .then(res => setData(res.data.product_list))
-            .catch(error => console.error('error fetching products:', error))
+        axios.get('https://akashsir.in/myapi/atecom1/api/api-random-product-list.php', {
+            headers: {
+                'Authorization': 'Bearer a2e01df35111d0970a68223b66bc0d8f'
+            }
+        })
+        .then(res => {
+                console.log(res.data);
+                setData(res.data.product_list)
+        })
+        .catch(error => console.error('error fetching products:', error))
     }, [])
 
     return (
