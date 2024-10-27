@@ -11,11 +11,11 @@ const Home = () => {
                 'Authorization': `Bearer ${token}`
             }
         })
-        .then(res => {
+            .then(res => {
                 console.log(res.data);
                 setData(res.data.product_list)
-        })
-        .catch(error => console.error('error fetching products:', error))
+            })
+            .catch(error => console.error('error fetching products:', error))
     }, [])
 
     return (
@@ -64,7 +64,7 @@ const Home = () => {
 
             {
                 data.length === 0 ? (
-                    <p className='text-center fs-2' style={{ color: '#735DA5',marginTop:'80px' }}>
+                    <p className='text-center fs-2' style={{ color: '#735DA5', marginTop: '80px' }}>
                         <img src="/loading.gif" alt="" width={60} /><br />Loading...
                     </p>
                 ) :
@@ -79,7 +79,7 @@ const Home = () => {
                                         <div class="card-body pt-2" style={{ width: '230px', background: '#F7F7F7' }}>
                                             <h6 class="card-title mx-3" style={{ height: '40px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: '2', textOverflow: 'ellipsis', WebkitBoxOrient: 'vertical', color: '#4a5760' }}>{value.product_name}</h6>
                                             <p class="card-text mx-3 my-3" style={{ fontWeight: '500' }}>Rs. {Number(value.product_price).toLocaleString("en-IN")}.00</p>
-                                            <Link to={`/product-detail/${value.product_id}`} class="btn btn-primary btn-sm mx-3 mb-3" style={{background:'#FF7B00',borderColor:'#FF7B00'}}>View Detail</Link>
+                                            <Link to={`/product-detail/${value.product_id}`} class="btn btn-primary btn-sm mx-3 mb-3" style={{ background: '#FF7B00', borderColor: '#FF7B00' }}>View Detail</Link>
                                         </div>
                                     </div>
 
