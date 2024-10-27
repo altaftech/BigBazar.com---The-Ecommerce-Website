@@ -5,8 +5,13 @@ import { Link } from 'react-router-dom';
 
 const Category = () => {
     const [data, setData] = useState([])
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
     useEffect(() => {
-        axios.get('https://akashsir.in/myapi/atecom1/api/api-list-category.php')
+        axios.get('https://akashsir.in/myapi/atecom1/api/api-list-category.php', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(res => setData(res.data.category_list))
             .catch(error => console.error('error fetching categories:', error))
     }, [])

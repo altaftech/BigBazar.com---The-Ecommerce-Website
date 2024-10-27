@@ -18,10 +18,15 @@ const Editprofile = () => {
 
     const uid = localStorage.getItem('uid');
     const navigate = useNavigate();
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
 
     useEffect(() => {
         // Fetch user profile data to prefill the form
-        axios.post(`https://akashsir.in/myapi/atecom1/api/api-user-profile.php?user_id=${uid}`)
+        axios.post(`https://akashsir.in/myapi/atecom1/api/api-user-profile.php?user_id=${uid}`, {},{
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(res => {
                 setData(res.data);
                 setOriginalData(res.data); // Store the original data
@@ -85,7 +90,11 @@ const Editprofile = () => {
             formData.append('user_email', data.user_email)
             formData.append('user_mobile', data.user_mobile)
             formData.append('user_address', data.user_address)
-            axios.post('https://akashsir.in/myapi/atecom1/api/api-user-update.php', formData)
+            axios.post('https://akashsir.in/myapi/atecom1/api/api-user-update.php', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     console.log('Profile updated successfully');
                     if (res.data.flag === '1') {

@@ -4,11 +4,16 @@ import axios from "axios";
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const uid = localStorage.getItem('uid'); // Replace with actual user ID
+  const token = 'a2e01df35111d0970a68223b66bc0d8f'
 
   useEffect(() => {
     // Fetch cart data from API using GET request
     axios
-      .post(`https://akashsir.in/myapi/atecom1/api/api-list-cart.php?user_id=${uid}`)
+      .post(`https://akashsir.in/myapi/atecom1/api/api-list-cart.php?user_id=${uid}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
       .then((response) => {
         setCartItems(response.data.cart_list);
       })

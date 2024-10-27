@@ -52,9 +52,14 @@ const Mobile = () => {
         event.preventDefault();
         if (validate()) {
             setIsSubmitting(true);
+            const token = 'a2e01df35111d0970a68223b66bc0d8f'
             const data = new FormData()
             data.append('user_mobile', mobile)
-            axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-login.php', data)
+            axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-login.php', data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     const receivedOTP = res.data.mobile_otp
                     const userObject = res.data.message
@@ -100,9 +105,15 @@ const Mobile = () => {
         }, 30000);
 
         if (validate()) {
+            const token = 'a2e01df35111d0970a68223b66bc0d8f'
+
             const data = new FormData()
             data.append('user_mobile', mobile)
-            axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-resend.php', data)
+            axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-resend.php', data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     const receivedOTP = res.data.mobile_otp
                     const userObject = res.data.message
@@ -138,10 +149,15 @@ const Mobile = () => {
     const handleOTPVerification = () => {
         if (OTPValid()) {
             setIsSubmitting(true);
+            const token = 'a2e01df35111d0970a68223b66bc0d8f'
             const data = new FormData();
             data.append('user_mobile', mobile);
             data.append('mobile_otp', OTP); // Send the entered OTP to the API
-            axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-verify.php', data)
+            axios.post('https://akashsir.in/myapi/atecom1/api/api-otp-verify.php', data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     const userObject = res.data.message;
                     if (userObject === 'You Have Successfully Logged In') {

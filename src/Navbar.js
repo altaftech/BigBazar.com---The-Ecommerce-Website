@@ -12,11 +12,15 @@ const Navbar = () => {
   const isLoggedIn = localStorage.getItem('is_login')
   const uid = localStorage.getItem('uid')
   const navigate = useNavigate();
-
+  const token = 'a2e01df35111d0970a68223b66bc0d8f'
 
   useEffect(() => {
-    axios.post(`https://akashsir.in/myapi/atecom1/api/api-user-profile.php?user_id=${uid}`)
-      .then(res => { setImguid(res.data.user_photo); setName(res.data.user_name) })
+    axios.post(`https://akashsir.in/myapi/atecom1/api/api-user-profile.php?user_id=${uid}`, {}, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+  })
+      .then(res => { setImguid(res.data.user_photo); setName(res.data.user_name)})
       .catch(error => console.error(error))
   }, [uid])
   const handleLogout = () => {

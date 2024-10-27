@@ -53,6 +53,7 @@ const Signup = () => {
         e.preventDefault();
         if (validate()) {
             setIsSubmitting(true);
+            const token = 'a2e01df35111d0970a68223b66bc0d8f'
             const data = new FormData()
             data.append('user_name', formData.name)
             data.append('user_email', formData.email)
@@ -60,7 +61,11 @@ const Signup = () => {
             data.append('user_gender', formData.gender)
             data.append('user_mobile', formData.mobile)
             data.append('user_address', formData.address)
-            axios.post('https://akashsir.in/myapi/atecom1/api/api-signup.php', data)
+            axios.post('https://akashsir.in/myapi/atecom1/api/api-signup.php', data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     console.log(res.data)
                     if (res.data.flag === '1') {

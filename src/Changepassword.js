@@ -51,12 +51,17 @@ const Changepassword = () => {
     }
 
     setIsSubmitting(true);
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
     const data = new FormData();
     data.append('user_id', uid)
     data.append('opass', oldPassword)
     data.append('npass', newPassword)
     data.append('cpass', confirmPassword)
-    axios.post('https://akashsir.in/myapi/atecom1/api/api-change-password.php', data)
+    axios.post('https://akashsir.in/myapi/atecom1/api/api-change-password.php', data, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+  })
       .then(res => {
         console.log(res.data)
         if (res.data.flag === '1') {

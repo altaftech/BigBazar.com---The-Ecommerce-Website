@@ -6,8 +6,14 @@ import React, { useState, useEffect } from 'react'
 const ProductDetail = () => {
     const [data, setData] = useState({})
     const { id } = useParams()
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
+
     useEffect(() => {
-        axios.get(`https://akashsir.in/myapi/atecom1/api/api-list-product.php?product_id=${id}`)
+        axios.get(`https://akashsir.in/myapi/atecom1/api/api-list-product.php?product_id=${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(res => setData(res.data.product_list[0]))
             .catch(error => console.error('error fetching product detail:', error));
     }, [id]);

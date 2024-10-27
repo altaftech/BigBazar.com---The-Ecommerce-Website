@@ -12,8 +12,13 @@ const Profile = () => {
   const uid = localStorage.getItem('uid')
   const navigate = useNavigate()
 
+  const token = 'a2e01df35111d0970a68223b66bc0d8f'
   useEffect(() => {
-    axios.post(`https://akashsir.in/myapi/atecom1/api/api-user-profile.php?user_id=${uid}`)
+    axios.post(`https://akashsir.in/myapi/atecom1/api/api-user-profile.php?user_id=${uid}`, {}, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => { console.log(res.data); setData(res.data) })
       .catch(error => console.error(error))
   }, [uid])
@@ -22,11 +27,16 @@ const Profile = () => {
   };
   const handleChange = (e) => {
     setIsSubmitting(true);
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
     const file = e.target.files[0];
     const formdata = new FormData()
     formdata.append('user_id', uid)
     formdata.append('user_photo', file)
-    axios.post('https://akashsir.in/myapi/atecom1/api/api-user-photo-change.php', formdata)
+    axios.post('https://akashsir.in/myapi/atecom1/api/api-user-photo-change.php', formdata, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         togglePopup()
         console.log('Your image updated successfully');
@@ -236,11 +246,11 @@ const Profile = () => {
         </div>
       </div>
       <div style={{
-        display:'flex',
-        justifyContent:'center',
-          width: "800px",
-          margin: "20px auto"
-        }}>
+        display: 'flex',
+        justifyContent: 'center',
+        width: "800px",
+        margin: "20px auto"
+      }}>
         <button onClick={() => navigate('/changepassword')} className='mx-auto px-5' style={{ border: 'none', fontSize: '28px', color: 'white', background: 'green', display: 'flex', alignItems: 'center', borderRadius: '10px' }}><img src="chpassw.png" alt="" width={30} /> &nbsp;Change Password</button>
         <button onClick={() => navigate('/editprofile')} className='mx-auto px-5' style={{ border: 'none', fontSize: '28px', color: 'white', background: '#FF7B00', display: 'flex', alignItems: 'center', borderRadius: '10px' }}><img src="edit.png" alt="" width={30} /> &nbsp;Edit Profile</button>
       </div>

@@ -32,9 +32,14 @@ const Forgotpassword = () => {
         e.preventDefault();
         if (validate()) {
             setIsSubmitting(true);
+            const token = 'a2e01df35111d0970a68223b66bc0d8f'
             const data = new FormData()
             data.append('user_email', formData.email)
-            axios.post('https://akashsir.in/myapi/atecom1/api/api-user-forgot-password.php', data)
+            axios.post('https://akashsir.in/myapi/atecom1/api/api-user-forgot-password.php', data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     const userObject = res.data.message
                     if (userObject === 'No Record found') {

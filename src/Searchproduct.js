@@ -10,8 +10,13 @@ const Searchproduct = () => {
 
     useEffect(() => {
         setLoading(true);
+        const token = 'a2e01df35111d0970a68223b66bc0d8f'
         axios.get(
-            `https://akashsir.in/myapi/atecom1/api/api-list-search-product.php?product_name=${search}`
+            `https://akashsir.in/myapi/atecom1/api/api-list-search-product.php?product_name=${search}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         )
             .then(res => { setData(res.data.product_list); setLoading(false); })
             .catch(error => { console.error('error fetching products:', error); setLoading(false); })

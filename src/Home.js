@@ -4,10 +4,11 @@ import React, { useState, useEffect } from 'react'
 
 const Home = () => {
     const [data, setData] = useState([])
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
     useEffect(() => {
         axios.get('https://akashsir.in/myapi/atecom1/api/api-random-product-list.php', {
             headers: {
-                'Authorization': 'Bearer a2e01df35111d0970a68223b66bc0d8f'
+                'Authorization': `Bearer ${token}`
             }
         })
         .then(res => {

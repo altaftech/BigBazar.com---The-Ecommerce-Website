@@ -7,10 +7,15 @@ const Products = () => {
     const { id } = useParams()
 
 
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
     useEffect(() => {
         axios.get(id
             ? `https://akashsir.in/myapi/atecom1/api/api-list-product.php?sub_category_id=${id}`
-            : 'https://akashsir.in/myapi/atecom1/api/api-list-product.php')
+            : 'https://akashsir.in/myapi/atecom1/api/api-list-product.php', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             .then(res => setData(res.data.product_list))
             .catch(error => {
                 console.error('Error fetching products:', error);

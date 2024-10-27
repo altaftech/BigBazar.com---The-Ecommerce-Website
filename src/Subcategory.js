@@ -7,10 +7,16 @@ const Subcategory = () => {
     const [data, setData] = useState([])
     const { id } = useParams();
 
+    const token = 'a2e01df35111d0970a68223b66bc0d8f'
+
     useEffect(() => {
         axios.get(id 
             ? `https://akashsir.in/myapi/atecom1/api/api-list-subcategory.php?category_id=${id}` 
-            : 'https://akashsir.in/myapi/atecom1/api/api-list-subcategory.php'
+            : 'https://akashsir.in/myapi/atecom1/api/api-list-subcategory.php', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
           )
             .then(res => setData(res.data.sub_category_list))
             .catch(error => console.error('error fetching categories:', error))
